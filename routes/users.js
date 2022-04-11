@@ -1,15 +1,23 @@
 var express = require('express');
 var router = express.Router();
-var userCtl = require("../controllers/user");
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const auth = require('../middleware/auth');
 
-router.post('/add',userCtl.addUser);
-router.post('/addMultiple',userCtl.addMultipleUser);
-router.get('/all',userCtl.getAllUsers);
-router.get('/:id',userCtl.getUserByid);
-router.put('/:id',userCtl.updateUserPack);
+var userCtl = require("../controllers/user");
+
+/* GET get Account*/
+router.get('/get/:id',auth, userCtl.getUser)
+
+/* GET get all Accounts*/
+router.get('/get', auth, userCtl.getAllUsers)
+/* POST login account */
+router.post('/login', userCtl.login );
+  
+/* POST create account */
+router.post('/register', userCtl.signup);
+
+/* PUT update account */
+router.put('/update'  , auth, userCtl.updateUserRole);
+  
+
 
 module.exports = router;
